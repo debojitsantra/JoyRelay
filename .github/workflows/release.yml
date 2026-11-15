@@ -120,8 +120,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      # vgamepad's source build hangs on a headless runner, so it is
-      # installed separately below. Everything else installs normally.
       - name: Install build dependencies (except vgamepad)
         shell: pwsh
         run: |
@@ -135,13 +133,11 @@ jobs:
       - name: Install vgamepad without the ViGEmBus installer
         shell: pwsh
         run: |
-          # Tip: add "--branch <tag>" here to pin the version you tested
           git clone --depth 1 https://github.com/yannbouteiller/vgamepad.git vg
           Write-Host "---- setup.py ----"
           Get-Content vg\setup.py
           Write-Host "---- installer-related lines ----"
           Select-String -Path vg\setup.py -Pattern "subprocess|\.exe|\.msi|Popen|os\.system|urlretrieve|urlopen"
-          # Neutralise subprocess calls (adjust once you've seen the output above)
           (Get-Content vg\setup.py) |
             ForEach-Object { $_ -replace '^(\s*)(subprocess\.\w+\(.*)$', '$1pass  # $2' } |
             Set-Content vg\setup.py
@@ -168,6 +164,14 @@ jobs:
         with:
           path: release-assets
           merge-multiple: true
+
+      - name: Generate SHA-256 checksum files
+        working-directory: release-assets
+        run: |
+          for f in *; do
+            sha256sum "$f" > "$f.sha256.txt"
+          done
+          ls -l
 
       - name: Create or update GitHub release
         uses: softprops/action-gh-release@v2
