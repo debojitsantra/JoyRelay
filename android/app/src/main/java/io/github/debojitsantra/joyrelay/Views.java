@@ -1,4 +1,4 @@
-package io.debojitsantra.padrelay;
+package io.github.debojitsantra.joyrelay;
 
 import android.content.Context;
 import android.graphics.Canvas;

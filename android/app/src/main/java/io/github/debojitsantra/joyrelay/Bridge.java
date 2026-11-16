@@ -1,4 +1,4 @@
-package io.debojitsantra.padrelay;
+package io.github.debojitsantra.joyrelay;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
@@ -69,7 +69,7 @@ final class Bridge {
         WifiManager wifiManager = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
         wifiLock = wifiManager.createWifiLock(
                 WifiManager.WIFI_MODE_FULL_LOW_LATENCY,
-                "padrelay"
+                "joyrelay"
         );
         wifiLock.setReferenceCounted(false);
         wifiLock.acquire();

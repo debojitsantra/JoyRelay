@@ -1,4 +1,4 @@
-package io.debojitsantra.padrelay;
+package io.github.debojitsantra.joyrelay;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -13,10 +13,10 @@ import android.os.IBinder;
 import android.os.Looper;
 
 public class BridgeService extends Service {
-    static final String ACTION_START = "io.debojitsantra.padrelay.START";
-    static final String ACTION_STOP = "io.debojitsantra.padrelay.STOP";
+    static final String ACTION_START = "io.github.debojitsantra.joyrelay.START";
+    static final String ACTION_STOP = "io.github.debojitsantra.joyrelay.STOP";
 
-    private static final String CHANNEL = "padrelay";
+    private static final String CHANNEL = "joyrelay";
     private static final int ID = 1;
 
     private final Handler ui = new Handler(Looper.getMainLooper());
@@ -76,7 +76,7 @@ public class BridgeService extends Service {
     private void createChannel() {
         NotificationChannel channel = new NotificationChannel(
                 CHANNEL,
-                "PadRelay connection",
+                "JoyRelay connection",
                 NotificationManager.IMPORTANCE_LOW
         );
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
@@ -113,7 +113,7 @@ public class BridgeService extends Service {
 
         return new Notification.Builder(this, CHANNEL)
                 .setSmallIcon(R.drawable.ic_stat_bridge)
-                .setContentTitle("PadRelay - Streaming")
+                .setContentTitle("JoyRelay - Streaming")
                 .setContentText(Bridge.host + ":" + Bridge.port + "  |  " + latency)
                 .setColor(C.ACCENT)
                 .setOngoing(true)

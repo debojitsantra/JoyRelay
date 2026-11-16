@@ -15,12 +15,12 @@ VSVersionInfo(
         StringTable(
           '040904B0',
           [
-            StringStruct('CompanyName', 'PadRelay'),
-            StringStruct('FileDescription', 'PadRelay'),
+            StringStruct('CompanyName', 'JoyRelay'),
+            StringStruct('FileDescription', 'JoyRelay'),
             StringStruct('FileVersion', '0.5'),
-            StringStruct('InternalName', 'PadRelay'),
-            StringStruct('OriginalFilename', 'PadRelay.exe'),
-            StringStruct('ProductName', 'PadRelay'),
+            StringStruct('InternalName', 'JoyRelay'),
+            StringStruct('OriginalFilename', 'JoyRelay.exe'),
+            StringStruct('ProductName', 'JoyRelay'),
             StringStruct('ProductVersion', '0.5')
           ]
         )

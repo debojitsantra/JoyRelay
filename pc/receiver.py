@@ -2,11 +2,11 @@
 import argparse
 import time
 
-from padrelay_core import PORT, Receiver, local_ips, make_backend
+from joyrelay_core import PORT, Receiver, local_ips, make_backend
 
 
 def main():
-    ap = argparse.ArgumentParser(description="PadRelay PC receiver (headless)")
+    ap = argparse.ArgumentParser(description="JoyRelay PC receiver (headless)")
     ap.add_argument("--port", type=int, default=PORT)
     ap.add_argument("--allow", help="only accept packets from this phone IP")
     args = ap.parse_args()

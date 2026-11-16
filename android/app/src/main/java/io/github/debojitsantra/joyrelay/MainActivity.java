@@ -1,4 +1,4 @@
-package io.debojitsantra.padrelay;
+package io.github.debojitsantra.joyrelay;
 
 import android.Manifest;
 import android.app.Activity;
@@ -139,19 +139,19 @@ public class MainActivity extends Activity {
         connection.addView(Ui.caption(this, "Connection"));
 
         ipField = field("PC IP address (e.g. 192.168.1.20)");
-        ipField.setText(getSharedPreferences("padrelay", Context.MODE_PRIVATE)
+        ipField.setText(getSharedPreferences("joyrelay", Context.MODE_PRIVATE)
                 .getString("ip", ""));
         connection.addView(ipField, lp(-1, -2, 10));
 
         portField = field("Port");
-        portField.setText(getSharedPreferences("padrelay", Context.MODE_PRIVATE)
+        portField.setText(getSharedPreferences("joyrelay", Context.MODE_PRIVATE)
                 .getString("port", "47500"));
         portField.setInputType(InputType.TYPE_CLASS_NUMBER);
         connection.addView(portField, lp(-1, -2, 8));
 
         TextView help = Ui.text(
                 this,
-                "Keep PadRelay open while streaming so Android can deliver controller input. "
+                "Keep JoyRelay open while streaming so Android can deliver controller input. "
                         + "The screen stays on while this app is open.",
                 11,
                 C.MUTED,
@@ -236,7 +236,7 @@ public class MainActivity extends Activity {
             return;
         }
 
-        getSharedPreferences("padrelay", 0).edit()
+        getSharedPreferences("joyrelay", 0).edit()
                 .putString("ip", ip)
                 .putString("port", String.valueOf(port))
                 .apply();

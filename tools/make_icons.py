@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generates the PadRelay icon from one shape definition:
+Generates the JoyRelay icon from one shape definition:
   - Android adaptive icon (vector foreground with a stacked-offset shadow,
     monochrome layer for themed icons, notification icon)
   - PC icons (assets/icon.png, icon.ico, icon.icns) with a real blurred shadow

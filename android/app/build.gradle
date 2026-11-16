@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'io.debojitsantra.padrelay'
+    namespace 'io.github.debojitsantra.joyrelay'
     compileSdk 34
 
     defaultConfig {
-        applicationId 'io.debojitsantra.padrelay'
+        applicationId 'io.github.debojitsantra.joyrelay'
         minSdk 31
         targetSdk 34
         versionCode 5

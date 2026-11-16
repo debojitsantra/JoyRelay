@@ -46,8 +46,8 @@ jobs:
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/padrelay-release.jks"
-          echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/padrelay-release.jks" >> "$GITHUB_ENV"
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/joyrelay-release.jks"
+          echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/joyrelay-release.jks" >> "$GITHUB_ENV"
 
       - name: Build release APK
         run: gradle --no-daemon :app:assembleRelease
@@ -61,20 +61,20 @@ jobs:
         run: |
           unsigned="android/app/build/outputs/apk/release/app-release-unsigned.apk"
           build_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
-          "$build_tools/zipalign" -f -v 4 "$unsigned" PadRelay-android-aligned.apk
+          "$build_tools/zipalign" -f -v 4 "$unsigned" JoyRelay-android-aligned.apk
           "$build_tools/apksigner" sign \
             --ks "$ANDROID_KEYSTORE_PATH" \
             --ks-key-alias "$ANDROID_KEY_ALIAS" \
             --ks-pass env:ANDROID_KEYSTORE_PASSWORD \
             --key-pass env:ANDROID_KEY_PASSWORD \
-            --out PadRelay-android.apk PadRelay-android-aligned.apk
-          "$build_tools/apksigner" verify --verbose PadRelay-android.apk
+            --out JoyRelay-android.apk JoyRelay-android-aligned.apk
+          "$build_tools/apksigner" verify --verbose JoyRelay-android.apk
 
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: PadRelay-android.apk
+          path: JoyRelay-android.apk
           if-no-files-found: error
 
   linux:
@@ -98,13 +98,13 @@ jobs:
         working-directory: pc
 
       - name: Package Linux app
-        run: tar -czf PadRelay-linux-x64.tar.gz -C pc/dist PadRelay
+        run: tar -czf JoyRelay-linux-x64.tar.gz -C pc/dist JoyRelay
 
       - name: Upload Linux app
         uses: actions/upload-artifact@v4
         with:
           name: linux-app
-          path: PadRelay-linux-x64.tar.gz
+          path: JoyRelay-linux-x64.tar.gz
           if-no-files-found: error
 
   windows:
@@ -151,7 +151,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-app
-          path: pc/dist/PadRelay.exe
+          path: pc/dist/JoyRelay.exe
           if-no-files-found: error
 
   publish:

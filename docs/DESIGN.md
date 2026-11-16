@@ -1,10 +1,10 @@
-# PadRelay design
+# JoyRelay design
 
 This document describes the implementation in this repository.
 
 ## System overview
 
-PadRelay forwards a wired game controller connected to an Android phone to a PC over the local network.
+JoyRelay forwards a wired game controller connected to an Android phone to a PC over the local network.
 Android converts platform input events into a compact controller state packet. The PC receives that state
 and updates an operating-system virtual gamepad backend.
 
@@ -37,7 +37,7 @@ Android or the controller from delivering usable gamepad events.
    running, and submits the current neutral state. The notification provides a Stop action.
 
 `MainActivity` holds `FLAG_KEEP_SCREEN_ON` while open. Android gamepad input is collected by the foreground
-activity, so the user must keep PadRelay in front while streaming. The service keeps networking alive, but
+activity, so the user must keep JoyRelay in front while streaming. The service keeps networking alive, but
 does not replace the foreground activity as the source of input events.
 
 ### Read and normalize controls
@@ -108,7 +108,7 @@ encryption; only use the receiver on a trusted network. The PC UI optionally fil
 
 ## PC receiver and virtual gamepad
 
-`Receiver` in `pc/padrelay_core.py` binds a UDP socket to `0.0.0.0:<port>` and receives packets on a daemon
+`Receiver` in `pc/joyrelay_core.py` binds a UDP socket to `0.0.0.0:<port>` and receives packets on a daemon
 thread. It optionally checks the sender IP, minimum packet length, magic, and protocol version. Ping replies
 are sent to the source address. A wraparound-aware sequence check drops duplicate and old state packets.
 Valid packets update a thread-safe snapshot and are immediately passed to the selected backend.
@@ -117,13 +117,13 @@ The PC marks a phone connected while state has arrived within the last second. I
 for 300 ms, it resets the virtual controller to neutral and clears the active connection state. The receiver
 does not implement authentication, session negotiation, packet retransmission, or a pairing protocol.
 
-Backends in `padrelay_core.py`:
+Backends in `joyrelay_core.py`:
 
 - **Windows:** `VigemBackend` uses Python `vgamepad` and ViGEmBus to expose an Xbox 360 controller.
 - **Linux:** `UinputBackend` uses `evdev` and `/dev/uinput` to expose a virtual gamepad.
 - **Other / unavailable backend:** `NullBackend` keeps receiving and displaying state in monitor-only mode.
 
-`pc/padrelay_gui.py` is the tkinter desktop UI. It shows status, phone IP, packet rate, RTT history, and a
+`pc/joyrelay_gui.py` is the tkinter desktop UI. It shows status, phone IP, packet rate, RTT history, and a
 simulation of the received controller state. Closing the window hides it to the tray; the tray Quit action
 stops the receiver and backend. A nonblocking per-user file lock prevents launching a second GUI instance.
 `pc/receiver.py` is a headless receiver that uses the same core.
@@ -135,13 +135,13 @@ of the state; neither is a controller image streamed over the network.
 
 | Path                                                                   | Responsibility                                                              |
 | ---------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `android/app/src/main/java/io/debojitsantra/padrelay/MainActivity.java`  | Android UI, controller event capture, normalization, phone simulation       |
-| `android/app/src/main/java/io/debojitsantra/padrelay/Bridge.java`        | Shared bridge state, lifecycle, Wi-Fi lock, rates and RTT history           |
-| `android/app/src/main/java/io/debojitsantra/padrelay/BridgeService.java` | Foreground service and persistent notification                              |
-| `android/app/src/main/java/io/debojitsantra/padrelay/UdpSender.java`     | Queued UDP state packets and ping echo handling                             |
-| `android/app/src/main/java/io/debojitsantra/padrelay/Views.java`         | Android controller simulation and latency graph                             |
-| `pc/padrelay_core.py`                                                  | Packet parser, receiver, timeout handling, and platform backends            |
-| `pc/padrelay_gui.py`                                                   | Desktop GUI, tray behavior, single-instance lock, PC simulation             |
+| `android/app/src/main/java/io/github/debojitsantra/joyrelay/MainActivity.java`  | Android UI, controller event capture, normalization, phone simulation       |
+| `android/app/src/main/java/io/github/debojitsantra/joyrelay/Bridge.java`        | Shared bridge state, lifecycle, Wi-Fi lock, rates and RTT history           |
+| `android/app/src/main/java/io/github/debojitsantra/joyrelay/BridgeService.java` | Foreground service and persistent notification                              |
+| `android/app/src/main/java/io/github/debojitsantra/joyrelay/UdpSender.java`     | Queued UDP state packets and ping echo handling                             |
+| `android/app/src/main/java/io/github/debojitsantra/joyrelay/Views.java`         | Android controller simulation and latency graph                             |
+| `pc/joyrelay_core.py`                                                  | Packet parser, receiver, timeout handling, and platform backends            |
+| `pc/joyrelay_gui.py`                                                   | Desktop GUI, tray behavior, single-instance lock, PC simulation             |
 | `pc/receiver.py`                                                       | Headless PC receiver entry point                                            |
 | `.github/workflows/release.yml`                                        | Builds Android, Windows, Linux release assets and publishes on version tags |
 

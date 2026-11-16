@@ -20,7 +20,7 @@ def main():
     windows_icon = None
     cmd = [
         sys.executable, "-m", "PyInstaller", "--noconfirm", "--clean", "--windowed",
-        "--name", "PadRelay",
+        "--name", "JoyRelay",
         "--distpath", os.path.join(HERE, "dist"),
         "--workpath", work, "--specpath", work,
         "--add-data", f"{os.path.join(HERE, 'assets', 'icon.png')}{SEP}assets",
@@ -42,7 +42,7 @@ def main():
         cmd += ["--icon", os.path.join(HERE, "assets", "icon.icns")]  # onedir .app bundle
     else:
         cmd += ["--onefile", "--hidden-import", "evdev"]
-    cmd.append(os.path.join(HERE, "padrelay_gui.py"))
+    cmd.append(os.path.join(HERE, "joyrelay_gui.py"))
     print(" ".join(cmd))
     try:
         result = subprocess.call(cmd, cwd=HERE)

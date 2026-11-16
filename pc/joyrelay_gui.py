@@ -9,7 +9,7 @@ import tkinter as tk
 from tkinter import font as tkfont
 
 import portalocker
-from padrelay_core import PORT, Receiver, local_ips, make_backend
+from joyrelay_core import PORT, Receiver, local_ips, make_backend
 
 APP_VERSION = "0.5"
 
@@ -72,7 +72,7 @@ class Pill(tk.Canvas):
 class App:
     def __init__(self, root):
         self.root = root
-        root.title(f"PadRelay {APP_VERSION}")
+        root.title(f"JoyRelay {APP_VERSION}")
         root.configure(bg=BG)
         root.geometry("1100x760")
         root.minsize(900, 600)
@@ -117,13 +117,13 @@ class App:
 
             image = Image.open(resource_path("assets/icon.png")).convert("RGBA")
             open_item = pystray.MenuItem(
-                "Open PadRelay", lambda icon, item: self.root.after(0, self.restore), default=True
+                "Open JoyRelay", lambda icon, item: self.root.after(0, self.restore), default=True
             )
             quit_item = pystray.MenuItem(
                 "Quit", lambda icon, item: self.root.after(0, self.quit)
             )
             self.tray_icon = pystray.Icon(
-                "PadRelay", image, f"PadRelay {APP_VERSION} - running in the background",
+                "JoyRelay", image, f"JoyRelay {APP_VERSION} - running in the background",
                 pystray.Menu(open_item, quit_item)
             )
             self.tray_icon.run_detached()
@@ -452,8 +452,8 @@ class App:
 
 def main():
     user_id = getattr(os, "getuid", lambda: getpass.getuser())()
-    instance_id = hashlib.sha256(f"padrelay:{user_id}".encode()).hexdigest()[:16]
-    lock_path = os.path.join(tempfile.gettempdir(), f"padrelay-{instance_id}.lock")
+    instance_id = hashlib.sha256(f"joyrelay:{user_id}".encode()).hexdigest()[:16]
+    lock_path = os.path.join(tempfile.gettempdir(), f"joyrelay-{instance_id}.lock")
     instance_lock = open(lock_path, "a+")
     try:
         portalocker.lock(instance_lock, portalocker.LOCK_EX | portalocker.LOCK_NB)

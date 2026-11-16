@@ -1,4 +1,4 @@
-package io.debojitsantra.padrelay;
+package io.github.debojitsantra.joyrelay;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -52,7 +52,7 @@ final class UdpSender extends Thread {
     private long lastPingNs;
 
     UdpSender(String host, int port, RttCallback callback) {
-        super("padrelay-sender");
+        super("joyrelay-sender");
         this.host = host;
         this.port = port;
         onRtt = callback;
@@ -120,7 +120,7 @@ final class UdpSender extends Thread {
                 }
             } catch (Exception ignored) {
             }
-        }, "padrelay-receiver");
+        }, "joyrelay-receiver");
         receiver.setDaemon(true);
         receiver.start();
 

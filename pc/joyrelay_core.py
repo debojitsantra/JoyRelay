@@ -75,7 +75,7 @@ class UinputBackend:
                        (e.ABS_Z, trig), (e.ABS_RZ, trig), (e.ABS_HAT0X, hat), (e.ABS_HAT0Y, hat)],
         }
         # Match Xbox 360 IDs so games and Steam recognize this controller.
-        self._ui = UInput(caps, name="PadRelay Virtual Gamepad",
+        self._ui = UInput(caps, name="JoyRelay Virtual Gamepad",
                           vendor=0x045E, product=0x028E, version=0x110)
         self._map = [
             (0x1000, e.BTN_SOUTH), (0x2000, e.BTN_EAST), (0x4000, e.BTN_NORTH),
@@ -192,7 +192,7 @@ class Receiver:
         self._sock = sock
         self._stop.clear()
         self._reset_state()
-        self._thread = threading.Thread(target=self._loop, name="padrelay-rx", daemon=True)
+        self._thread = threading.Thread(target=self._loop, name="joyrelay-rx", daemon=True)
         self._thread.start()
 
     def stop(self):
