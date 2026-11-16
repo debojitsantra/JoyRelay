@@ -5,7 +5,7 @@
 - `android/` is the Android app. It uses Java and Android Views.
 - `pc/` is the Python desktop app, receiver, and PyInstaller build script.
 - `.github/workflows/release.yml` builds and publishes release artifacts.
-- `DESIGN.md` documents the input path and UDP protocol. Read it before changing packet handling or controller mappings.
+- `docs/DESIGN.md` documents the input path and UDP protocol. Read it before changing packet handling or controller mappings.
 
 ## Language and build files
 
@@ -24,7 +24,7 @@
 
 ## Behavior and protocol
 
-- Do not change packet sizes, field offsets, endianness, button bits, axis direction, or trigger ranges without updating both Android and PC implementations and `DESIGN.md`.
+- Do not change packet sizes, field offsets, endianness, button bits, axis direction, or trigger ranges without updating both Android and PC implementations and `docs/DESIGN.md`.
 - Only start Android streaming when a controller is connected. Keep the foreground-service and notification Stop behavior intact.
 - Keep the on-screen controller simulation driven by the same normalized state that is sent over the network.
 - Preserve controller release behavior on disconnect, receiver timeout, and stop.
